@@ -116,6 +116,36 @@ private:
 
 template < typename T >
 GrafoGnr< T >::GrafoGnr(int N, double p) {
+
+    //Llena el vector de vértices con N vértices
+    vectorVrts.resize(N, Vrt< T >());
+
+    // Creación de la distribución probabilística uniforme
+    std::random_device rd;
+    std::uniform_int_distribution<int> distribution(1, 100);
+    std::mt19937 engine(rd()); // Mersenne twister MT19937
+
+    // Se asigna memoria a cada vértice del vector de vértices
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+
+            // Valor tomado según la distribución probabilistica
+            int valor = distribution(engine);
+ 
+            // Agrega los vertices en las listas de adyacencia según la probabilidad p
+            // Además, no se puede agregar el mismo vertice a su lista de adyacencia
+            if (valor < (int)(p * 100) && i != j) {
+                vectorVrts[i].lstAdy.push_back(j);
+                vectorVrts[j].lstAdy.push_back(i);
+            }
+        }
+    }
+
+    // Se elimina los términos repetidos en cada lista de adyacencia
+    for (int i = 0; i < N; i++) {
+        vectorVrts[i].lstAdy.sort();
+        vectorVrts[i].lstAdy.unique();
+    }
 }
 
 template < typename T >
