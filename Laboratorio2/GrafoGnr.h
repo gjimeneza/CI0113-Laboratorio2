@@ -154,6 +154,7 @@ GrafoGnr< T >::GrafoGnr(ifstream& archivo) {
 
 template < typename T >
 GrafoGnr< T >::GrafoGnr(const GrafoGnr< T >& orig) {
+    vectorVrts = orig.vectorVrts;
 }
 
 template < typename T >
@@ -162,20 +163,54 @@ GrafoGnr< T >::~GrafoGnr() {
 
 template < typename T >
 bool GrafoGnr< T >::xstVrt(int idVrt) const {
-    return true;
+    bool seEncuentraEnGrafo;
+    int N = vectorVrts.size();
+
+    if (idVrt >= 0 && idVrt < N)
+        seEncuentraEnGrafo = true;
+    else
+        seEncuentraEnGrafo = false;
+
+    return seEncuentraEnGrafo;
 }
 
 template < typename T >
 bool GrafoGnr< T >::xstAdy(int idVrtO, int idVrtD) const {
-    return true;
+    bool hayAdyacencia = false;
+    int N = vectorVrts.size();
+
+    if (idVrtO >= 0 && idVrtO < N && idVrtD >= 0 && idVrtD < N) {
+        auto it = find(vectorVrts[idVrtO].listAdys.begin(), vectorVrts[idVrtO].listAdys.end(), vectorVrts[idVrtD]);
+        if (it != vectorVrts[idVrtO].listAdys.end())
+            hayAdyacencia = true;
+    }
+
+    return hayAdyacencia;
 }
 
 template < typename T >
 void GrafoGnr< T >::obtIdVrtAdys(int idVrt, vector< int >& rsp) const {
+    int N = vectorVrts.size();
+
+    if (idVrt >= 0 && idVrt < N) {
+        int LstAdysSize = vectorVrts[idVrt].lstAdys.size();
+        rsp.resize(LstAdysSize);
+
+        // Copia todos los valores de lstAdys del idVrt a rsp
+        std::copy(std::begin(vectorVrts[idVrt].lstAdys), std::end(vectorVrts[idVrt].lstAdys), std::back_inserter(rsp));
+    }
 }
 
 template < typename T >
 int GrafoGnr< T >::obtCntVrtAdys(int idVrt) const {
+    int cantAdy = 0;
+    int N = vectorVrts.size();
+
+    if (idVrt >= 0 && idVrt < N) {
+        cantAdy = vectorVrts[idVrt].lstAdys.size();
+    }
+
+    return cantAdy;
 }
 
 template < typename T >
