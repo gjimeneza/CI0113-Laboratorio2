@@ -57,11 +57,24 @@ void Nodo::modEstado(E ne) {
 }
 
 ostream& operator<<(ostream& s, const Nodo& n) {
-    return s; // sólo para que compile, sustituya con su código
+
+    if (n.estado == 0) {
+        s << "S";
+    }
+    else if (n.estado == 1) {
+        s << "I";
+    }
+    else if (n.estado == 2) {
+        s << "R";
+    }
+
+    return s;
 }
 
 Nodo Nodo::operator=(const Nodo& n) {
-    return *this; // sólo para que compile, sustituya con su código
+
+    estado = n.estado;
+    return *this;
 }
 
 

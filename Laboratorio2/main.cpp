@@ -22,12 +22,16 @@ using namespace std;
  *
  */
 int main(int argc, char** argv) {
+
+    RedNodos gNodos(5, 0.5); // se invoca el constructor de redes aleatorias
+
+    cout << gNodos.xstVrt(3) << endl;
     /*
-    RedNodos gNodos(5,0.5); // se invoca el constructor de redes aleatorias
     Simulador sim(gNodos); // se crea el simulador pasándole la referencia a la red
     cout << gNodos[0] << endl;*/
 
     GrafoGnr< int > g_ints(10, 0.5);
+
     for (int i = 0; i < 10; i++)
         cout << g_ints[i] << ',';
     cout << endl;

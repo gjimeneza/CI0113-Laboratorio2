@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+#include <assert.h>
 using namespace std;
 
 template < typename T >
@@ -116,6 +117,7 @@ private:
 
 template < typename T >
 GrafoGnr< T >::GrafoGnr(int N, double p) {
+    assert((p > 0) && (p < 1));
 
     //Llena el vector de vértices con N vértices
     vectorVrts.resize(N, Vrt< T >());
@@ -176,14 +178,18 @@ bool GrafoGnr< T >::xstVrt(int idVrt) const {
 
 template < typename T >
 bool GrafoGnr< T >::xstAdy(int idVrtO, int idVrtD) const {
-    bool hayAdyacencia = false;
     int N = vectorVrts.size();
+    assert((idVrtO >= 0) && (idVrtO < N) && (idVrtD >= 0) && (idVrtD < N));
 
-    if (idVrtO >= 0 && idVrtO < N && idVrtD >= 0 && idVrtD < N) {
-        auto it = find(vectorVrts[idVrtO].listAdys.begin(), vectorVrts[idVrtO].listAdys.end(), vectorVrts[idVrtD]);
-        if (it != vectorVrts[idVrtO].listAdys.end())
-            hayAdyacencia = true;
-    }
+    bool hayAdyacencia = false;
+
+    // Busca en la lista de adyacencia de vectorVrts[idVrtO] por idVrtD, devolviendo el iterador de este elemento
+    auto it = find(vectorVrts[idVrtO].lstAdy.begin(), vectorVrts[idVrtO].lstAdy.end(), idVrtD);
+
+    // Si el iterador apunta al final de la lista, no se encontró
+    if (it != vectorVrts[idVrtO].lstAdy.end())
+        hayAdyacencia = true;
+    
 
     return hayAdyacencia;
 }
@@ -191,48 +197,66 @@ bool GrafoGnr< T >::xstAdy(int idVrtO, int idVrtD) const {
 template < typename T >
 void GrafoGnr< T >::obtIdVrtAdys(int idVrt, vector< int >& rsp) const {
     int N = vectorVrts.size();
+    assert((idVrt >= 0) && (idVrt < N));
 
-    if (idVrt >= 0 && idVrt < N) {
-        int LstAdysSize = vectorVrts[idVrt].lstAdys.size();
-        rsp.resize(LstAdysSize);
+    int LstAdysSize = vectorVrts[idVrt].lstAdy.size();
+    rsp.resize(LstAdysSize);
 
-        // Copia todos los valores de lstAdys del idVrt a rsp
-        std::copy(std::begin(vectorVrts[idVrt].lstAdys), std::end(vectorVrts[idVrt].lstAdys), std::back_inserter(rsp));
-    }
+    // Copia todos los valores de lstAdy del idVrt a rsp
+    std::copy(std::begin(vectorVrts[idVrt].lstAdy), std::end(vectorVrts[idVrt].lstAdy), std::back_inserter(rsp));
+    
 }
 
 template < typename T >
 int GrafoGnr< T >::obtCntVrtAdys(int idVrt) const {
-    int cantAdy = 0;
     int N = vectorVrts.size();
+    assert((idVrt >= 0) && (idVrt < N));
 
-    if (idVrt >= 0 && idVrt < N) {
-        cantAdy = vectorVrts[idVrt].lstAdys.size();
-    }
-
+    int cantAdy = vectorVrts[idVrt].lstAdy.size();
+  
     return cantAdy;
 }
 
 template < typename T >
 T GrafoGnr< T >::operator[](int idVrt) const {
-    T t;
+    int N = vectorVrts.size();
+    assert((idVrt >= 0) && (idVrt < N));
+
+    T t = vectorVrts[idVrt].t;
+
     return t;
 }
 
 template < typename T >
 int GrafoGnr< T >::obtTotArc() const {
-    return 0;
+    int sumArc = 0;
+    int N = vectorVrts.size();
+
+    for (int i = 0; i < N; i++) {
+
+        // Se suma la cuenta de todos los vértices adyacentes
+        // a cada uno de los vértices
+        sumArc += vectorVrts[i].size();
+    }
+
+    // sumArc siempre es par puesto que en el grafo no dirigido
+    // cada vértice se conecta "dos veces" a otro vértice
+    return sumArc/2;
 }
 
 template < typename T >
 int GrafoGnr< T >::obtTotVrt() const {
-    return 0;
+    int N = vectorVrts.size();
+    return N;
 }
 
 template < typename T >
 T& GrafoGnr< T >::operator[](int idVrt) {
-    T t;
-    return t;
+    int N = vectorVrts.size();
+    assert((idVrt >= 0) && (idVrt < N));
+
+    return vectorVrts[idVrt].t;
+
 }
 
 #endif /* GRAFOGNR_H */

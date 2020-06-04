@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+#include <assert.h>
 using namespace std;
 
 #include "Nodo.h"
@@ -119,27 +120,27 @@ RedNodos::~RedNodos() {
 }
 
 bool RedNodos::xstVrt(int idVrt) const {
-    return true; // sólo para que compile, sustituya con su código
+    return red_nodos.xstVrt(idVrt);
 }
 
 bool RedNodos::xstAdy(int idVrtO, int idVrtD) const {
-    return true; // sólo para que compile, sustituya con su código
+    return red_nodos.xstAdy(idVrtO, idVrtD);
 }
 
 void RedNodos::obtIdVrtAdys(int idVrt, vector< int >& rspRetornar) const {
-
+    red_nodos.obtIdVrtAdys(idVrt, rspRetornar);
 }
 
 int RedNodos::obtCntVrtAdys(int idVrt) const {
-    return idVrt; // sólo para que compile, sustituya con su código
+    return red_nodos.obtCntVrtAdys(idVrt);
 }
 
 Nodo RedNodos::operator[](int idVrt) const {
-    return *(new Nodo()); // sólo para que compile, sustituya con su código
+    return red_nodos[idVrt];
 }
 
 int RedNodos::obtTotVrt() const {
-    return 0; // sólo para que compile, sustituya con su código
+    return red_nodos.obtTotVrt();
 }
 
 int RedNodos::obtTotVrtSusceptibles() const {
