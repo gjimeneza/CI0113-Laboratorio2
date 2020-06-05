@@ -144,31 +144,76 @@ int RedNodos::obtTotVrt() const {
 }
 
 int RedNodos::obtTotVrtSusceptibles() const {
-    return 0; // sólo para que compile, sustituya con su código
+
+    int cantVrtSusceptibles = 0;
+    int N = red_nodos.obtTotVrt();
+
+    for (int i = 0; i < N; i++) {
+        if (red_nodos[i].obtEstado() == Nodo::E::S) {
+            cantVrtSusceptibles++;
+        }
+    }
+    return cantVrtSusceptibles;
 }
 
 int RedNodos::obtTotVrtInfectados() const {
-    return 0; // sólo para que compile, sustituya con su código
+
+    int cantVrtInfectados = 0;
+    int N = red_nodos.obtTotVrt();
+
+    for (int i = 0; i < N; i++) {
+        if (red_nodos[i].obtEstado() == Nodo::E::I) {
+            cantVrtInfectados++;
+        }
+    }
+    return cantVrtInfectados;
 }
 
 int RedNodos::obtTotVrtResistentes() const {
-    return 0; // sólo para que compile, sustituya con su código
+
+    int cantVrtResistentes = 0;
+    int N = red_nodos.obtTotVrt();
+
+    for (int i = 0; i < N; i++) {
+        if (red_nodos[i].obtEstado() == Nodo::E::R) {
+            cantVrtResistentes++;
+        }
+    }
+    return cantVrtResistentes;
 }
 
 int RedNodos::obtPrcVrtSusceptibles() const {
-    return 0; // sólo para que compile, sustituya con su código
+
+    int cantVrtSusceptibles = obtTotVrtSusceptibles();
+    int N = red_nodos.obtTotVrt();
+
+    double prcVrtSusceptibles = double(cantVrtSusceptibles / N) * 100.0;
+
+    return static_cast<int>(prcVrtSusceptibles);
 }
 
 int RedNodos::obtPrcVrtInfectados() const {
-    return 0; // sólo para que compile, sustituya con su código
+
+    int cantVrtInfectados = obtTotVrtInfectados();
+    int N = red_nodos.obtTotVrt();
+
+    double prcVrtInfectados = double(cantVrtInfectados / N) * 100.0;
+
+    return static_cast<int>(prcVrtInfectados);
 }
 
 int RedNodos::obtPrcVrtResistentes() const {
-    return 0; // sólo para que compile, sustituya con su código
+
+    int cantVrtResistentes = obtTotVrtResistentes();
+    int N = red_nodos.obtTotVrt();
+
+    double prcVrtResistentes = double(cantVrtResistentes / N) * 100.0;
+
+    return static_cast<int>(prcVrtResistentes);
 }
 
 Nodo& RedNodos::operator[](int idVrt) {
-    return *(new Nodo()); // sólo para que compile, sustituya con su código
+    return red_nodos[idVrt];
 }
 
 

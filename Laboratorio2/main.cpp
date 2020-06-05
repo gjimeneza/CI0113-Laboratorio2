@@ -25,7 +25,8 @@ int main(int argc, char** argv) {
 
     RedNodos gNodos(5, 0.5); // se invoca el constructor de redes aleatorias
 
-    cout << gNodos.xstVrt(3) << endl;
+    cout << gNodos[3] << endl;
+    cout << gNodos.obtPrcVrtSusceptibles() << endl;
     /*
     Simulador sim(gNodos); // se crea el simulador pasándole la referencia a la red
     cout << gNodos[0] << endl;*/
