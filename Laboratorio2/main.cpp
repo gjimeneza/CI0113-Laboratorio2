@@ -21,8 +21,29 @@ using namespace std;
 /*
  *
  */
-int main(int argc, char** argv) {
+// MOD: Modifica por valor un vector de strings
+// REQ: nombreArchivo && vector de hileras exista
+// EFE: Lee los datos de un archivo txt y almacena cada linea en un vector 
+//      de strings
+bool getDocExp(string nombreArchivo, vector < string > vectorStrings);
 
+int main(int argc, char** argv) 
+{
+    vector < string > lista_experimentos;
+    
+    if (getDocExp("experimentos.txt",lista_experimentos)) 
+    {
+        ifstream in("nodos_pregenerados.txt");
+        GrafoGnr < int > grafo(in);
+    }
+    else 
+    {
+        cout << "Error";
+    }
+
+   
+
+    /* 
     RedNodos gNodos(5, 0.5); // se invoca el constructor de redes aleatorias
 
     cout << gNodos[3] << endl;
@@ -30,13 +51,37 @@ int main(int argc, char** argv) {
     /*
     Simulador sim(gNodos); // se crea el simulador pasándole la referencia a la red
     cout << gNodos[0] << endl;*/
-
+    /*
     GrafoGnr< int > g_ints(10, 0.5);
 
     for (int i = 0; i < 10; i++)
         cout << g_ints[i] << ',';
     cout << endl;
-
+    */
     return 0;
 }
 
+bool getDocExp(string nombreArchivo, vector < string > vectorStrings)
+{
+    ifstream in(nombreArchivo.c_str());
+    bool verificacion;
+    if (!in)
+    {
+        cerr << "NO se ha podido abrir el archivo " << nombreArchivo << endl;
+        verificacion = false;
+    }
+    else
+    {
+        string linea_experimento;
+        while (getline(in, linea_experimento))
+        {
+            if (linea_experimento.size() > 0)
+            {
+                vectorStrings.push_back(linea_experimento);
+            }
+        }
+        verificacion = true;
+    }
+
+    return verificacion;
+}

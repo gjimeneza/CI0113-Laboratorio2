@@ -8,6 +8,7 @@
 #ifndef GRAFOGNR_H
 #define GRAFOGNR_H
 
+#include <string>
 #include <fstream>
 #include <vector>
 #include <list>
@@ -151,7 +152,41 @@ GrafoGnr< T >::GrafoGnr(int N, double p) {
 }
 
 template < typename T >
-GrafoGnr< T >::GrafoGnr(ifstream& archivo) {
+GrafoGnr< T >::GrafoGnr(ifstream& archivo) 
+{
+    // Lee la primera linea del archivo y 
+    //llena el vector de vertices con el valor en esa primera linea
+    string linea;
+    getline(archivo, linea);
+    int N = stoi(linea);
+    vectorVrts.resize(N, Vrt< T >());
+    
+
+    string sublinea;
+    int adyacencia;
+    int contador = 0; 
+    size_t pos;
+    size_t fin;
+    while (getline(archivo, linea))
+    {
+        cout << linea << endl;
+        while (linea.size() != 0)
+        {
+            pos = linea.find(',');
+            fin = linea.length();
+            sublinea = linea.substr(0,pos);
+            adyacencia = stoi(sublinea);
+            vectorVrts[contador].lstAdy.push_back(adyacencia);
+            linea = linea.substr((pos + 1));
+            if (pos > fin)
+            {
+                linea = "";
+            }
+            else {}
+        }
+        contador++; 
+    }
+    archivo.close();
 }
 
 template < typename T >
