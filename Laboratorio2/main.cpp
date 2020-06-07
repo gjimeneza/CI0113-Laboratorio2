@@ -22,26 +22,30 @@ using namespace std;
  *
  */
 // MOD: Modifica por valor un vector de strings
-// REQ: nombreArchivo && vector de hileras exista
 // EFE: Lee los datos de un archivo txt y almacena cada linea en un vector 
 //      de strings
 bool getDocExp(string nombreArchivo, vector < string > vectorStrings);
 
 int main(int argc, char** argv) 
 {
+        /* El main debera leer y segmentar los datos del experimento, para pedirle al simulador por el metodo iniciarS  imulacion()
+        */
+        
     vector < string > lista_experimentos;
     
     if (getDocExp("experimentos.txt",lista_experimentos)) 
     {
         ifstream in("nodos_pregenerados.txt");
-        GrafoGnr < int > grafo(in);
+        RedNodos grafo_simulador(in);
+        Simulador sims(grafo_simulador);
+        sims.iniciarSimulacion(10,0.05,1,0.05,0.05);
     }
     else 
     {
         cout << "Error";
     }
-
-   
+  
+     
 
     /* 
     RedNodos gNodos(5, 0.5); // se invoca el constructor de redes aleatorias

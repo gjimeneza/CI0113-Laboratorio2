@@ -109,6 +109,7 @@ private:
         Vrt(const TT& tt) : t(tt), lstAdy() {
         }; // constructor con dato de vértice
 
+
         Vrt(const Vrt< TT >& vrt) : t(vrt.t), lstAdy(vrt.lstAdy) {
         }; // constructor de copias de Vrt
     };

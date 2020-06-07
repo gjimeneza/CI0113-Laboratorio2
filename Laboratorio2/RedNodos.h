@@ -103,13 +103,15 @@ private:
     GrafoGnr< Nodo > red_nodos; // GrafoGnr especializado con Nodo
 };
 
-RedNodos::RedNodos(int N, double p) : red_nodos(N, p) {
+RedNodos::RedNodos(int N, double p) : red_nodos(N, p) 
+{
 
 }
 
 
-RedNodos::RedNodos(ifstream& archivo) : red_nodos(archivo) {
-
+RedNodos::RedNodos(ifstream& archivo) : red_nodos(archivo) 
+{
+    
 }
 
 RedNodos::RedNodos(const RedNodos& orig) : red_nodos(orig.red_nodos) {
