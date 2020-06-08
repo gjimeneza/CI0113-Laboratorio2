@@ -42,6 +42,9 @@ private:
     int vcf;
     double rc;
     double grc;
+
+    // Genera un numero al azar
+    double rollDice();
 };
 
 Simulador::Simulador(RedNodos& g) : red_nodos(g) 
@@ -93,6 +96,57 @@ void Simulador::iniciarSimulacion(int ios, double vsc, int vcf, double rc, doubl
 
 void Simulador::simular() 
 {
-    // Para las probabilidades por turno pienso en generar numeros enteros al azar y dividir entre 0
+    // Para las probabilidades por turno pienso en generar numeros enteros al azar y dividir entre 100
+    //Necesito generar una copia de red_nodos, pero no del simulador, para mantener el estado 
+
+    int ciclo = 0;
+    while (red_nodos.obtTotVrtInfectados() > 0) 
+    {
+        ciclo++;
+        for (int i = 0; i < red_nodos.obtTotVrt(); i++) 
+        {
+            bool existe = red_nodos.xstVrt(i);
+            if (red_nodos[i].obtEstado()!=Nodo::E::R) 
+            {
+                if (red_nodos[i].obtEstado() == Nodo::E::S) 
+                {
+                    int apuntador = 0; 
+                    vector <int> ady_actuales;
+                    red_nodos.obtIdVrtAdys(i, ady_actuales);
+                    
+                    while ((apuntador < ady_actuales.size()) && (red_nodos.xstVrt(ady_actuales[apuntador])))
+                    {
+                        if ((red_nodos[apuntador].obtEstado == Nodo::E::I) && (rollDice() < vsc)) 
+                        {
+                            red_nodos[i].modEstado(Nodo::E::I);
+                        }
+                        else 
+                        {
+                        }
+                        apuntador++;
+                    }
+                }
+                else 
+                {
+                    if ((ciclo%vcf == 0) && (rollDice() < rc)) 
+                    {
+                        red_nodos[i].modEstado(Nodo::E::S);
+                        if (rollDice() < grc) 
+                        {
+                            red_nodos[i].modEstado(Nodo::E::R);
+                        }
+                    }
+                    else {}
+                }
+            }
+            else 
+            {
+            }
+        }
+    }
+}
+
+double rollDice()
+{
 
 }
