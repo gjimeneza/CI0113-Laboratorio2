@@ -125,7 +125,7 @@ GrafoGnr< T >::GrafoGnr(int N, double p) {
 
     // Creación de la distribución probabilística uniforme
     std::random_device rd;
-    std::uniform_int_distribution<int> distribution(1, 100);
+    std::uniform_int_distribution<int> distribution(0, 100);
     std::mt19937 engine(rd()); // Mersenne twister MT19937
 
     // Se asigna memoria a cada vértice del vector de vértices
@@ -149,6 +149,8 @@ GrafoGnr< T >::GrafoGnr(int N, double p) {
         vectorVrts[i].lstAdy.sort();
         vectorVrts[i].lstAdy.unique();
     }
+
+    
 }
 
 template < typename T >
@@ -238,8 +240,11 @@ void GrafoGnr< T >::obtIdVrtAdys(int idVrt, vector< int >& rsp) const {
     rsp.resize(LstAdysSize);
 
     // Copia todos los valores de lstAdy del idVrt a rsp
-    std::copy(std::begin(vectorVrts[idVrt].lstAdy), std::end(vectorVrts[idVrt].lstAdy), std::back_inserter(rsp));
-    
+    int i = 0;
+    for (std::list<int>::const_iterator it = vectorVrts[idVrt].lstAdy.begin(); it != vectorVrts[idVrt].lstAdy.end(); ++it) {
+        rsp[i] = *it;
+        i++;
+    }
 }
 
 template < typename T >

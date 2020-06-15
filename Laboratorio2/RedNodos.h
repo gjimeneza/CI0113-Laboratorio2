@@ -82,13 +82,13 @@ public:
     int obtTotVrtResistentes() const;
 
     // EFE: retorna el total de nodos susceptibles en la red.
-    int obtPrcVrtSusceptibles() const;
+    double obtPrcVrtSusceptibles() const;
 
     // EFE: retorna el total de nodos infectados en la red.
-    int obtPrcVrtInfectados() const;
+    double obtPrcVrtInfectados() const;
 
     // EFE: retorna el total de nodos resistentes en la red.
-    int obtPrcVrtResistentes() const;
+    double obtPrcVrtResistentes() const;
 
     /* MÉTODOS MODIFICADORES BÁSICOS */
 
@@ -182,34 +182,34 @@ int RedNodos::obtTotVrtResistentes() const {
     return cantVrtResistentes;
 }
 
-int RedNodos::obtPrcVrtSusceptibles() const {
+double RedNodos::obtPrcVrtSusceptibles() const {
 
     int cantVrtSusceptibles = obtTotVrtSusceptibles();
     int N = red_nodos.obtTotVrt();
 
-    double prcVrtSusceptibles = double(cantVrtSusceptibles / N) * 100.0;
+    double prcVrtSusceptibles = double(cantVrtSusceptibles) / double(N) * 100.0;
 
-    return static_cast<int>(prcVrtSusceptibles);
+    return prcVrtSusceptibles;
 }
 
-int RedNodos::obtPrcVrtInfectados() const {
+double RedNodos::obtPrcVrtInfectados() const {
 
     int cantVrtInfectados = obtTotVrtInfectados();
     int N = red_nodos.obtTotVrt();
 
-    double prcVrtInfectados = double(cantVrtInfectados / N) * 100.0;
+    double prcVrtInfectados = double(cantVrtInfectados) / double(N) * 100.0;
 
-    return static_cast<int>(prcVrtInfectados);
+    return prcVrtInfectados;
 }
 
-int RedNodos::obtPrcVrtResistentes() const {
+double RedNodos::obtPrcVrtResistentes() const {
 
     int cantVrtResistentes = obtTotVrtResistentes();
     int N = red_nodos.obtTotVrt();
 
-    double prcVrtResistentes = double(cantVrtResistentes / N) * 100.0;
+    double prcVrtResistentes = double(cantVrtResistentes) / double(N) * 100.0;
 
-    return static_cast<int>(prcVrtResistentes);
+    return prcVrtResistentes;
 }
 
 Nodo& RedNodos::operator[](int idVrt) {
