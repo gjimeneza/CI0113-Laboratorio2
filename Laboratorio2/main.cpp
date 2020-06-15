@@ -29,28 +29,38 @@ bool getDocExp(string nombreArchivo, vector < string > vectorStrings);
 
 int main(int argc, char** argv) 
 {
-    vector < string > lista_experimentos;
-    
-    if (getDocExp("experimentos.txt",lista_experimentos)) 
-    {
-        ifstream in("nodos_pregenerados.txt");
-        GrafoGnr < int > grafo(in);
-    }
-    else 
-    {
-        cout << "Error";
-    }
+    //vector < string > lista_experimentos;
+    //
+    //if (getDocExp("experimentos.txt",lista_experimentos)) 
+    //{
+    //    ifstream in("nodos_pregenerados.txt");
+    //    GrafoGnr < int > grafo(in);
+    //}
+    //else 
+    //{
+    //    cout << "Error";
+    //}
 
    
 
-    /* 
-    RedNodos gNodos(5, 0.5); // se invoca el constructor de redes aleatorias
+    
+    RedNodos gNodos(150, 0.5); // se invoca el constructor de redes aleatorias
 
-    cout << gNodos[3] << endl;
-    cout << gNodos.obtPrcVrtSusceptibles() << endl;
-    /*
     Simulador sim(gNodos); // se crea el simulador pasándole la referencia a la red
-    cout << gNodos[0] << endl;*/
+
+    sim.iniciarSimulacion(10, 0.01, 3, 0.05, 0.2);
+
+    cout << "Total: " << gNodos.obtTotVrt() << endl;
+
+    for (int i = 0; i < 200; i++) {
+        cout << "Tic: " << i << endl;
+        cout << "Total susceptibles: " << gNodos.obtTotVrtSusceptibles() << endl;
+        cout << "Total infectados: " << gNodos.obtTotVrtInfectados() << endl;
+        cout << "Total resistentes: " << gNodos.obtTotVrtResistentes() << endl;
+
+        sim.simular();
+    }
+    
     /*
     GrafoGnr< int > g_ints(10, 0.5);
 
