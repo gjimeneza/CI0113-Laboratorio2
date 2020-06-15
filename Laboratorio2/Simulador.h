@@ -5,6 +5,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <iomanip>
+#include <exception>
 
 class Simulador {
     // Representa el proceso de simulación de la infección en la red de computadoras.
@@ -42,6 +43,7 @@ private:
     int vcf;
     double rc;
     double grc;
+    int contador_tics;
 
     // Genera un numero al azar
     double rollDice();
@@ -73,80 +75,102 @@ void Simulador::iniciarSimulacion(int ios, double vsc, int vcf, double rc, doubl
     // Posicion a infectar generada aleatoriamente
     int pos_infectar;
 
-    // Cambia el estado de los nodos en base al atributo ios
+    // Cambia el estado de los nodos en base al atributo ios]
+    // Tome el codigo de la clase GrafosGnr 
+    // Aunque no se como funciona 
+    random_device rd;
+    uniform_int_distribution<int> distribution(0, (N-1));
+    mt19937 engine(rd());
+    
     while ((contador < ios)) 
     {
-        // Tome el codigo de la clase GrafosGnr 
-        // Aunque no se como funciona 
-        random_device rd;
-        uniform_int_distribution<int> distribution(0,99);
-        mt19937 engine(rd());
         pos_infectar = distribution(engine);
 
         // Si la posicion existe comprueba el estado, si la posicion no existe sale directamente y no comprueba el estado 
-        if (red_nodos.xstVrt(pos_infectar) && (red_nodos[pos_infectar].obtEstado() != Nodo::E::I))
+        if (red_nodos.xstVrt(pos_infectar) && (red_nodos[pos_infectar].obtEstado() != 1))
         {
             red_nodos[pos_infectar].modEstado(Nodo::E::I);
             contador++;
         }
         else {}
-
     }
+
 }
 
 void Simulador::simular() 
 {
-    // Para las probabilidades por turno pienso en generar numeros enteros al azar y dividir entre 100
-    //Necesito generar una copia de red_nodos, pero no del simulador, para mantener el estado 
+    // Numero de vertices
+    int N = red_nodos.obtTotVrt();
 
-    int ciclo = 0;
-    while (red_nodos.obtTotVrtInfectados() > 0) 
-    {
-        ciclo++;
-        for (int i = 0; i < red_nodos.obtTotVrt(); i++) 
-        {
-            bool existe = red_nodos.xstVrt(i);
-            if (red_nodos[i].obtEstado()!=Nodo::E::R) 
-            {
-                if (red_nodos[i].obtEstado() == Nodo::E::S) 
-                {
-                    int apuntador = 0; 
-                    vector <int> ady_actuales;
-                    red_nodos.obtIdVrtAdys(i, ady_actuales);
-                    
-                    while ((apuntador < ady_actuales.size()) && (red_nodos.xstVrt(ady_actuales[apuntador])))
-                    {
-                        if ((red_nodos[apuntador].obtEstado == Nodo::E::I) && (rollDice() < vsc)) 
-                        {
-                            red_nodos[i].modEstado(Nodo::E::I);
-                        }
-                        else 
-                        {
-                        }
-                        apuntador++;
+    vector< int > adyacencias;
+    int cantAdyacencias;
+
+    // Creación de la distribución probabilística uniforme
+    std::random_device rd;
+    std::uniform_int_distribution<int> distribution(0, 100);
+    std::mt19937 engine(rd()); // Mersenne twister MT19937
+
+    // El antivirus revisa los vértices cada vcf tics
+    bool check_antivirus = (contador_tics % vcf == 0 && contador_tics != 0) ? true : false;
+
+    // Recorre los vértices
+    for (int id = 0; id < N; id++) {
+        red_nodos.obtIdVrtAdys(id, adyacencias);
+        cantAdyacencias = red_nodos.obtCntVrtAdys(id);
+        // Contagio
+        if (red_nodos[id].obtEstado() == Nodo::E::S) {
+
+            // Recorre las adyacencias del vértice
+            for (int i = 0; i < cantAdyacencias; i++) {
+
+                int idAdy = adyacencias[i];
+                // Si hay un vertice infectado
+                if (red_nodos[idAdy].obtEstado() == Nodo::E::I) {
+                    // Valor aleatorio tomado según la distribución probabilistica
+                    int valor = distribution(engine);
+                    // El vertice se contagia con una probabilidad de vsc
+                    if (valor < (int)(vsc * 100)) {
+                        red_nodos[id].modEstado(Nodo::E::I);
                     }
                 }
-                else 
-                {
-                    if ((ciclo%vcf == 0) && (rollDice() < rc)) 
-                    {
-                        red_nodos[i].modEstado(Nodo::E::S);
-                        if (rollDice() < grc) 
-                        {
-                            red_nodos[i].modEstado(Nodo::E::R);
-                        }
-                    }
-                    else {}
-                }
-            }
-            else 
-            {
             }
         }
+        else if (red_nodos[id].obtEstado() == Nodo::E::I) {
+            // Eliminacion de infeccion
+
+            if (check_antivirus) {
+                int valor_eliminacion_infeccion = distribution(engine);
+
+                // El vertice se recupera con una probabilidad de rc
+                if (valor_eliminacion_infeccion < (int)(rc * 100)) {
+                    red_nodos[id].modEstado(Nodo::E::S);
+
+                    // Generacion de resistencia
+                    int valor_generacion_resistencia = distribution(engine);
+                    // El vertice genera inmunidad con una probabilidad de grc
+                    if (valor_generacion_resistencia < (int)(grc * 100)) {
+                        red_nodos[id].modEstado(Nodo::E::R);
+                    }
+                }
+            }
+
+
+
+        }
     }
+
+    // Pasó un tic
+    contador_tics++;
 }
 
 double rollDice()
 {
+    random_device rd;
+    uniform_int_distribution<int> distribution(1, 100);
+    mt19937 engine(rd());
 
+    double probabilidad = distribution(engine);
+    probabilidad /= 100;
+    cout << probabilidad;
+    return probabilidad;
 }
