@@ -111,6 +111,7 @@ void Simulador::simular() {
 
     // Creación de la distribución probabilística uniforme
     std::random_device rd;
+    // Creo que esto es entre 0 y n-1
     std::uniform_int_distribution<int> distribution(0, 100);
     std::mt19937 engine(rd()); // Mersenne twister MT19937
 

@@ -125,7 +125,7 @@ GrafoGnr< T >::GrafoGnr(int N, double p) {
 
     // Creación de la distribución probabilística uniforme
     std::random_device rd;
-    std::uniform_int_distribution<int> distribution(0, 100);
+    std::uniform_int_distribution<int> distribution(0, (N-1));
     std::mt19937 engine(rd()); // Mersenne twister MT19937
 
     // Se asigna memoria a cada vértice del vector de vértices
@@ -300,3 +300,4 @@ T& GrafoGnr< T >::operator[](int idVrt) {
 }
 
 #endif /* GRAFOGNR_H */
+    

@@ -187,7 +187,7 @@ double RedNodos::obtPrcVrtSusceptibles() const {
     int cantVrtSusceptibles = obtTotVrtSusceptibles();
     int N = red_nodos.obtTotVrt();
 
-    double prcVrtSusceptibles = double(cantVrtSusceptibles) / double(N) * 100.0;
+    double prcVrtSusceptibles = double(cantVrtSusceptibles) / double(N);
 
     return prcVrtSusceptibles;
 }
@@ -197,7 +197,7 @@ double RedNodos::obtPrcVrtInfectados() const {
     int cantVrtInfectados = obtTotVrtInfectados();
     int N = red_nodos.obtTotVrt();
 
-    double prcVrtInfectados = double(cantVrtInfectados) / double(N) * 100.0;
+    double prcVrtInfectados = double(cantVrtInfectados) / double(N);
 
     return prcVrtInfectados;
 }
@@ -207,7 +207,7 @@ double RedNodos::obtPrcVrtResistentes() const {
     int cantVrtResistentes = obtTotVrtResistentes();
     int N = red_nodos.obtTotVrt();
 
-    double prcVrtResistentes = double(cantVrtResistentes) / double(N) * 100.0;
+    double prcVrtResistentes = double(cantVrtResistentes) / double(N);
 
     return prcVrtResistentes;
 }
