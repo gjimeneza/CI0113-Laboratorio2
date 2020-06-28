@@ -36,10 +36,10 @@ public:
     // Los vértices se identifican con números de 0 a N-1.
     // Luego en cada línea aparecerán los índices de los vértices asociados o
     // adyacentes, a cada vértice: 0, 1...N-1.
-    // NOTA: todos los vértices son inicializados con Nodo().
+    // NOTA: todos los vértices son inicializados con Nodo(). // Bryan
     RedNodos(ifstream& archivo);
 
-    // Construye una copia idéntica a orig.
+    // Construye una copia idéntica a orig.  // Bryan
     RedNodos(const RedNodos& orig);
 
     // Destructor
@@ -65,9 +65,10 @@ public:
     int obtCntVrtAdys(int idVrt) const;
 
     // REQ: 0 <= idVrt < N.
+
     // EFE: retorna el vértice con índice idVrt.
     // NOTA: retorna por valor para que NO pueda ser modificado.
-    Nodo operator[](int idVrt) const;
+    Nodo operator[](int idVrt) const; 
 
     // EFE: retorna el total de vértices en el RedNodos.
     int obtTotVrt() const;

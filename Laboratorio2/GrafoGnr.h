@@ -158,6 +158,7 @@ GrafoGnr< T >::GrafoGnr(ifstream& archivo)
 {
     // Lee la primera linea del archivo y 
     //llena el vector de vertices con el valor en esa primera linea
+    
     string linea;
     getline(archivo, linea);
     int N = stoi(linea);

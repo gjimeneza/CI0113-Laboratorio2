@@ -72,7 +72,7 @@ void Simulador::iniciarSimulacion(int ios, double vsc, int vcf, double rc, doubl
 
     // Creación de la distribución probabilística uniforme
     random_device rd;
-    uniform_int_distribution<int> distribution(0, N); // Entre 0 y N inclusivo
+    uniform_int_distribution<int> distribution(0, N-1); // Entre 0 y N inclusivo
     mt19937 engine(rd()); // Mersenne twister MT19937
     
     // Si ios = N simplemente recorre la red e infecta cada vértice

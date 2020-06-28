@@ -21,6 +21,7 @@ using namespace std;
 #include "Nodo.h"
 #include "GrafoGnr.h"
 
+
 /*
  * Aca podria definir constantes con los valores posicionales para esas listas [][][]
  */
@@ -40,6 +41,9 @@ void llenarArchivo(RedNodos rn, ofstream& file_salida, int tic_actual, int sum_i
 template <typename DATO>
 void validarDato(DATO& dato, string dato_string);
 
+// String constante con el nombre del archivo para lectura
+string LISTA_EXPERIMENTOS = "experimentos.txt";//"experimentos.txt"; 
+
 int main(int argc, char** argv)
 {
     RedNodos grafo_sim(1,0.1);
@@ -47,7 +51,7 @@ int main(int argc, char** argv)
     */
     // Lee datos e inicializa variables necesarias para la simulacion del proximo experimento!
     vector < vector < string > > datos_exp;
-    bool condicion_lectura = getDocExp("experimentos.txt", datos_exp);
+    bool condicion_lectura = getDocExp(LISTA_EXPERIMENTOS, datos_exp);
     int condicional, rep_xp, ios, vcf, n_nodos;
     ifstream archivo_nodos;
     double vsc, rc, grc, p_ady;
@@ -84,14 +88,13 @@ int main(int argc, char** argv)
             {
                 ifstream in(datos_exp[num_exp][7].c_str());
                 RedNodos grafo2(in);
-                // No se que tan bien funcione pero para no reinsistir con el codigo
                 grafo_sim = grafo2;
             }
         }
         // Genera un respaldo del grafo inicial para realizar la simulacion sobre el mismo grafo 
         // las veces necesarias
         RedNodos respaldo_repeticiones = grafo_sim;
-        if ((condicional != -1) && (ios >= 1) && (ios <= grafo_sim.obtTotVrt()) && (vsc >= 0) && (vsc <= 0.1) && (vcf >= 1) && (vsc <= 20) && (rc >= 0) && (rc <= 0.1) && (grc >= 0) && (grc <= 0.1))
+        if ((condicional != -1) && (ios >= 1) && (ios <= grafo_sim.obtTotVrt()) && (vsc >= 0) && (vsc <= 0.1) && (vcf >= 1) && (vsc <= 20) && (rc >= 0) && (rc <= 0.1) && (grc >= 0) && (grc <= 1))
         {
             grafo_sim.obtTotVrt();
             Simulador sims(grafo_sim);
@@ -143,6 +146,8 @@ int main(int argc, char** argv)
             system("pause");
         }
     }
+    // Destructores
+    
     return 0;
 }
 
